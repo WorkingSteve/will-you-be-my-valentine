@@ -67,7 +67,7 @@ const ValentineApp = () => {
 
 			<div className="bg-white/20 p-6 md:p-8 lg:p-10 rounded-xl shadow-2xl flex flex-col items-center w-full max-w-lg md:max-w-2xl">
 				<h1 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 animate-pulse">
-					Will you be my Valentine? 💖
+					Will you go out with me on Saturday? 💖
 				</h1>
 
 				{response && (
