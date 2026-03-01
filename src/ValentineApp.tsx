@@ -1,96 +1,12 @@
 import { useState } from "react";
 import "./ValentineApp.css";
 
-const responsesByCategory = {
-	yes: {
-		names: [
-			"Giulia",
-			"Noli",
-			"Julie",
-			"Gégé",
-			"Géraldine",
-			"Annabelle",
-			"Laëtitia",
-			"Angélina",
-			"Alex",
-			"Hal",
-			"Victoria",
-			"Lynda",
-			"Chloé"
-		],
-		response: "OMG, is that you?! 🤩 Of course yes! 💘",
-	},
-	yes_in_french: {
-		names: ["Betty", "Eva", "Nao", "Naomi"],
-		response: "OMG c'est toi ? 🤩 Bien sûr que oui ! 💘",
-	},
-	wait_what: {
-		names: ["Florian", "Laurent", "Camille", "Tom"],
-		response: "Oh really? 💘 Let's give it a shot! 😏",
-	},
-	for_life: {
-		names: ["Poly", "Kadidia", "Gustave", "Chris", "Christophe"],
-		response: "You and me 💖 for life! 😍",
-	},
-	guys: {
-		names: ["Kevin", "Victor"],
-		response: "Hahaha... Just kidding, right? 😂",
-	},
-	why_not_in_french: {
-		names: ["Julien", "Juju", "Chaton"],
-		response: "Si tu me cuisines un bananabread, peut-être...",
-	},
-	other: {
-		names: ["Beyoncé"],
-		response:
-			"Let me think... \n Just kidding, I've been waiting for you for so long! 💞",
-	},
-	nope: {
-		names: ["Anthony"],
-		response: "Nope 💀",
-	},
-	joke: {
-		names: ["Agnès"],
-		response: "Can't wait until you get the gift of ubiquity! 😘",
-	},
-	this_year: {
-		names: ["Benjamin"],
-		response: "Can't wait to spend Valentine's Day with you! 💖",
-	},
-};
-
-const getResponse = (name: string): string => {
-	if (!/^[A-ZÀ-ÖØ-Ÿ][a-zà-öø-ÿ]+(?:[- ][A-ZÀ-ÖØ-Ÿ][a-zà-öø-ÿ]+)*$/.test(name)) {
-		return "Hmm... Isn't that a real name? 😅 \n With a capital letter and more letters, perhaps?";
-	}
-
-	for (const category of Object.keys(responsesByCategory) as Array<
-		keyof typeof responsesByCategory
-	>) {
-		if (responsesByCategory[category].names.includes(name)) {
-			return responsesByCategory[category].response;
-		}
-	}
-
-	return "Let's get to know each other first 😊 \n Tell me why you want to be my Valentine";
-};
-
 const ValentineApp = () => {
-	const [name, setName] = useState("");
-	const [submittedName, setSubmittedName] = useState<string | null>(null);
 	const [response, setResponse] = useState<string | null>(null);
-	const [error, setError] = useState<string | null>(null);
 	const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
 	const [hearts, setHearts] = useState<
 		{ id: number; x: number; y: number; color: string }[]
 	>([]);
-
-	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === "Enter") {
-			e.preventDefault();
-			createHearts(e as unknown as React.MouseEvent<HTMLButtonElement>);
-		}
-	};
 
 	const moveNoButton = () => {
 		const maxX = window.innerWidth < 768 ? 100 : 200;
@@ -100,26 +16,16 @@ const ValentineApp = () => {
 		setNoPosition({ x: newX, y: newY });
 	};
 
-	const createHearts = (
-		_event:
-			| React.MouseEvent<HTMLButtonElement>
-			| React.KeyboardEvent<HTMLInputElement>,
-	) => {
-		const trimmedName = name.trim();
+	const createHearts = () => {
+		const generatedResponse =
+			"Will you date with me on Saturday? 💖 Of course YES! 😘";
 
-		if (trimmedName === "") {
-			setError("Please enter a first name!");
-			return;
-		}
-
-		setError(null);
-		setSubmittedName(trimmedName);
-		const generatedResponse = getResponse(trimmedName);
 		setResponse(generatedResponse);
 
 		const buttonRect = document
 			.querySelector("button")
 			?.getBoundingClientRect();
+
 		if (!buttonRect) return;
 
 		const btnX = buttonRect.left + buttonRect.width / 2;
@@ -164,31 +70,13 @@ const ValentineApp = () => {
 					Will you be my Valentine? 💖
 				</h1>
 
-				<label htmlFor="name-input" className="sr-only">
-					Enter your first name
-				</label>
-				<input
-					type="text"
-					placeholder="Your name here..."
-					value={name}
-					onChange={(e) => {
-						if (e.target.value.startsWith(" ")) return;
-						setName(e.target.value);
-					}}
-					onKeyDown={handleKeyDown}
-					className="mb-4 px-4 py-2 sm:py-3 w-full max-w-xs rounded-lg border border-white text-black shadow-md focus:outline-none focus:ring-2 focus:ring-red-300 placeholder-gray-800"
-				/>
-
-				{submittedName && response && (
+				{response && (
 					<p
 						role="alert"
 						className="whitespace-pre-wrap mt-4 text-lg md:text-xl font-semibold bg-white/20 px-4 py-2 sm:px-6 sm:py-3 rounded-lg shadow-md"
 					>
 						{response}
 					</p>
-				)}
-				{error && (
-					<p className="mt-4 text-lg text-gray-600 font-semibold">{error}</p>
 				)}
 
 				<div className="mt-6 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center relative w-full">
