@@ -18,7 +18,7 @@ const ValentineApp = () => {
 
 	const createHearts = () => {
 		const generatedResponse =
-			"Will you date with me on Saturday? 💖 Of course YES! 😘";
+			"Yey ! Let's go ~ 💖💖💖";
 
 		setResponse(generatedResponse);
 
